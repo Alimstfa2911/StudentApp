@@ -59,3 +59,20 @@ Model → Holds data (Student object).
 DAO → Does database operations (CRUD).
 
 DBConnection → Manages database connection.
+
+### Adding the Service Layer
+
+We introduce a Service Layer between Controller and DAO:
+
+MainApp → Controller → Service → DAO → Database
+
+##### Service Layer responsibilities:
+
+Business logic (e.g., validate age > 0 before inserting a student)
+
+Transaction management
+
+Orchestrate multiple DAOs if needed
+
+Exception handling/logging
+

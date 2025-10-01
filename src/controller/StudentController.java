@@ -2,6 +2,7 @@ package controller;
 
 import dao.StudentDAO;
 import model.Student;
+import service.StudentService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -9,6 +10,8 @@ import java.util.Scanner;
 public class StudentController {
     private final StudentDAO dao = new StudentDAO();
     private final Scanner sc = new Scanner(System.in);
+
+    private StudentService studentService = new StudentService();
 
     public void run() {
         int choice;
@@ -34,14 +37,24 @@ public class StudentController {
     }
 
     public void insertStudent() {
-        System.out.print("Enter Name : ");
-        String name = sc.next();
-        System.out.print("Enter age: ");
-        int age = sc.nextInt();
-        System.out.print("Enter course : ");
-        String course = sc.next();
+        try {
+            System.out.print("Enter Name : ");
+            String name = sc.next();
+            System.out.print("Enter age: ");
+            int age = sc.nextInt();
+            System.out.print("Enter course : ");
+            String course = sc.next();
 
-        dao.insert(new Student(name, age, course));
+            Student student = new Student(name, age, course);
+
+            studentService.addStudent(student);
+
+            System.out.println("Student added successfully!");
+
+        } catch(Exception e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+        
     }
 
     public void viewStudent() {
@@ -52,21 +65,35 @@ public class StudentController {
     }
 
     public void updateStudent() {
-        System.out.print("Enter Student ID to update: ");
-        int id = sc.nextInt();
-        System.out.print("Enter New name : ");
-        String name = sc.next();
-        System.out.print("Enter New Age : ");
-        int age = sc.nextInt();
-        System.out.print("Enter New Course : ");
-        String course = sc.next();
+        try {
+            System.out.print("Enter Student ID to update: ");
+            int id = sc.nextInt();
+            System.out.print("Enter New name : ");
+            String name = sc.next();
+            System.out.print("Enter New Age : ");
+            int age = sc.nextInt();
+            System.out.print("Enter New Course : ");
+            String course = sc.next();
 
-        dao.update(new Student(id, name, age, course));
+            Student student = new Student(id, name, age, course);
+
+            studentService.updateStudent(student);
+        } catch(Exception e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+        
     }
 
     public void deleteStudent() {
-        System.out.print("Enter Student ID to delete : ");
-        int id = sc.nextInt();
-        dao.delete(id);
+         try {
+            System.out.print("Enter Student ID to delete: ");
+            int id = sc.nextInt();
+
+            studentService.deleteStudent(id);
+
+            System.out.println(" Student deleted successfully!");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
